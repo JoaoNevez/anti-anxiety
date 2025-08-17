@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Respiração 4-2-6</title>
+<style>
+  body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    background-color: #1e1e2f;
+    color: #fff;
+    transition: background-color 0.5s;
+  }
+  #phase {
+    font-size: 2em;
+    margin-bottom: 20px;
+  }
+  #timer {
+    font-size: 5em;
+  }
+  button {
+    margin-top: 30px;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    background-color: #4caf50;
+    color: white;
+  }
+</style>
+</head>
+<body>
+
+<div id="phase">Pronto?</div>
+<div id="timer">0</div>
+<button id="startBtn">Iniciar</button>
+
+<!-- Música de fundo -->
+<audio id="bgMusic" src="C:\Users\Condominio\Downloads\Anxiety timer\raining.mp3" loop></audio>
+
+<script>
+const phases = [
+  { name: 'Inspirar', duration: 4, color: '#1e3d59' },
+  { name: 'Segurar', duration: 2, color: '#ff6e40' },
+  { name: 'Expirar', duration: 6, color: '#1e1e2f' }
+];
+
+let phaseIndex = 0;
+let timeLeft = phases[0].duration;
+let interval;
+
+const phaseEl = document.getElementById('phase');
+const timerEl = document.getElementById('timer');
+const startBtn = document.getElementById('startBtn');
+const bodyEl = document.body;
+const music = document.getElementById('bgMusic');
+
+function startBreathing() {
+  startBtn.disabled = true;
+
+  // Toca a música de fundo
+  music.play();
+
+  phaseIndex = 0;
+  timeLeft = phases[phaseIndex].duration;
+  phaseEl.textContent = phases[phaseIndex].name;
+  timerEl.textContent = timeLeft;
+  bodyEl.style.backgroundColor = phases[phaseIndex].color;
+
+  interval = setInterval(() => {
+    timeLeft--;
+    timerEl.textContent = timeLeft;
+
+    if (timeLeft <= 0) {
+      phaseIndex = (phaseIndex + 1) % phases.length;
+      timeLeft = phases[phaseIndex].duration;
+      phaseEl.textContent = phases[phaseIndex].name;
+      bodyEl.style.backgroundColor = phases[phaseIndex].color;
+    }
+  }, 1000);
+}
+
+startBtn.addEventListener('click', startBreathing);
+</script>
+
+</body>
+</html>
